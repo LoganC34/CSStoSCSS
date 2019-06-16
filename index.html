@@ -3,27 +3,50 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <!-- Insert this line above script imports  -->
-    <script>
-    if (typeof module === 'object') {
-      window.module = module; 
-      module = undefined;
-    }
-    </script>
-
-    <!-- normal script imports etc  -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>   
-    <script src="scripts/vendor.js"></script>    
-
-    <!-- Insert this line after script imports -->
-    <script>if (window.module) module = window.module;</script>
   </head>
   <body>
     <h1>Hello World!</h1>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-    <textarea></textarea>
+    <input type="button" id="button" value="test">
+    <textarea id="text"></textarea>
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>
+      $(document).ready(function() {
+        var input;
+        $("#button").on('click', function () {
+          input = $("#text").val();
+          var cssArr = removeWhiteSpace(input);
+          console.log(cssArr);
+          // parseInput(cssArr);
+        });
+
+        function removeWhiteSpace (input) {
+          input = input.replace("\t","");
+          cssArr = input.split("\n");
+          
+          cssArr.forEach(function(item, index, object) {
+            if (item == "" || item == " " ||  item == "\n") {
+              object.splice(index, 1);
+            }
+          });
+          return cssArr
+        }
+
+        function parseInput(input) {
+          console.log(input.split(" "));
+          pattOne = new RegExp('[.][A-Za-z]+');
+          cssArr = input.split(" ");
+          cssArr.forEach(element => {
+            if (pattOne.test(element)) {
+              console.log(element);
+            }
+          });
+        }
+
+      });
+    </script>
   </body>
 
 </html>
