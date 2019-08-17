@@ -18,12 +18,12 @@
         $("#button").on('click', function () {
           input = $("#text").val();
           var cssArr = removeWhiteSpace(input);
-         // console.log(cssArr);
+          console.log(cssArr);
           var dataArr = convertToKeyValue(cssArr);
          // console.log(dataArr);
           // parseInput(cssArr);
           dataArr = addAmpersands(dataArr);
-          console.log(dataArr);
+         // console.log(dataArr);
         });
 
         function convertToKeyValue (arr) {
@@ -80,7 +80,7 @@
               delete data[key];
             }
             
-            console.log(data);
+            //console.log(data);
           }
           return data;
         }
