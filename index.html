@@ -19,20 +19,22 @@
           input = $("#text").val();
           var cssArr = removeWhiteSpace(input);
           console.log(cssArr);
-          var dataArr = convertToKeyValue(cssArr);
-         // console.log(dataArr);
+          var sortedObj = sortElements(cssArr);
+          console.log(sortedObj);
+          //var dataArr = convertToKeyValue(cssArr);
+          //console.log(dataArr);
           // parseInput(cssArr);
-          dataArr = addAmpersands(dataArr);
-         // console.log(dataArr);
+          //dataArr = addAmpersands(dataArr);
+          //console.log(dataArr);
         });
 
-        function convertToKeyValue (arr) {
+        /*function convertToKeyValue (arr) {
           var data = {};
           var line = [];
           var className = ''
           arr.forEach(function(item, index, object) {
             if(item.endsWith("{")) {
-              data[item] = [];
+              data.item = [];
               className = item;
             } else if (item.startsWith("}")) {
               //data.push(line);
@@ -50,7 +52,50 @@
           });
 
           return data;
+        }*/
+
+        function sortElements (arr) {
+          var myJson = new Array;
+          var arrayLength = arr.length;
+          var prevLine;
+          var prevParent;
+          var newParent;
+          for (var i = 0; i < arrayLength; i++) {
+            var line = arr[i];
+            if(line.startsWith(".") && line.endsWith('{')) {
+              if(line.includes('__')) {
+                var newLine = line.split("__").shift();
+                line = line.replace(' {','');
+                myJson[newLine][line] = [];
+                prevLine = line;
+                newParent = false;
+              } else if(line.includes('--')){
+                var newLine = line.split("--").shift();
+                line = line.replace(' {','');
+                myJson[newLine][line] = [];
+                prevLine = line;
+                newParent = false;
+              } else {
+                line = line.replace(' {',''); 
+                myJson[line] = [];
+                prevParent = line;
+                newParent = true;
+              }
+            } else if (line != "}"){
+              if(newParent) {
+                line = line.trim();
+                myJson[prevParent].push(line);
+              } else {
+                line = line.trim();
+                myJson[prevParent][prevLine].push(line);
+              }
+            } 
+          }
+
+
+          return myJson;
         }
+
 
         function removeWhiteSpace (input) {
           input = input.replace("\t","");
@@ -75,12 +120,10 @@
               data[newValue] = {};
               delete data[key];
             } else {
-              newValue = key;
+              var newValue = key;
               data[newValue] = {};
               delete data[key];
             }
-            
-            //console.log(data);
           }
           return data;
         }

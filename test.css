@@ -5,3 +5,11 @@
 .header__title {
     color: black;
 }
+
+.nav {
+    color: black;
+}
+
+.nav__title {
+    height: 100%;
+}
